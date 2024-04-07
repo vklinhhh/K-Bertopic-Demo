@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* styles.css */
+
+.title-word {
+animation: color-animation 4s linear infinite;
+}
+
+.title-word-1 {
+--color-1: #ffc300;
+--color-2: #ffffff;
+--color-3: #ffffff;
+--color-4: #ffffff;
+--color-5: #ffffff;
+}
+
+.title-word-2 {
+    -color-1: #ffffff;
+    --color-2: #ffc300;
+    --color-3: #ffffff;
+    --color-4: #ffffff;
+    --color-5: #ffffff;
+}
+
+.title-word-3 {
+    -color-1: #ffffff;
+    --color-2: #ffffff;
+    --color-3: #ffc300;
+    --color-4: #ffffff;
+    --color-5: #ffffff;
+}
+
+.title-word-4 {
+    -color-1: #ffffff;
+    --color-2: #ffffff;
+    --color-3: #ffffff;
+    --color-4: #ffc300;
+    --color-5: #ffffff;
+}
+
+.title-word-5 {
+    -color-1: #ffffff;
+    --color-2: #ffffff;
+    --color-3: #ffffff;
+    --color-4: #ffffff;
+    --color-5: #ffc300;
+}
+
+@keyframes color-animation {
+0%{color: var(--color-1)}
+15% {color: var(--color-1)}
+16% {color: var(--color-2)}
+32% {color: var(--color-2)}
+33% {color: var(--color-3)}
+49% {color: var(--color-3)}
+50% {color: var(--color-4)}
+66% {color: var(--color-4)}
+67% {color: var(--color-5)}
+83% {color: var(--color-5)}
+84% {color: var(--color-1)}
+100% {color: var(--color-1)}
+}
