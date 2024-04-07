@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import List, Tuple, Union
 
 import matplotlib.pyplot as plt
-import nltk
 import pandas as pd
 import plotly.graph_objects as go
 import requests
@@ -200,8 +199,8 @@ def clean_text(text: str) -> str:
     for match in word_pattern.finditer(text.lower()):
         words.append(match.group())
     words = [word for word in words if word not in stop_words]
-    lemmatizer = nltk.stem.WordNetLemmatizer()
-    words = [lemmatizer.lemmatize(word) for word in words]
+    #lemmatizer = nltk.stem.WordNetLemmatizer()
+    #words = [lemmatizer.lemmatize(word) for word in words]
     return ' '.join(words)
 
 
