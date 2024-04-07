@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Tuple, Union
 
 import matplotlib.pyplot as plt
+import nltk
 import pandas as pd
 import plotly.graph_objects as go
 import requests
@@ -22,7 +23,7 @@ from PIL import Image
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.tags import tagger_component
 from wordcloud import WordCloud
-from nltk.stem import WordNetLemmatizer
+
 # Initial page config
 st.set_page_config(
     page_title='Topic Modeling Demo',
@@ -178,6 +179,7 @@ def plot_bar_chart(top_words: List[str], top_scores: List[float]) -> None:
 
     st.plotly_chart(fig, use_container_width=True)
 
+
 def clean_text(text: str) -> str:
     # Remove emojis
     emoji_pattern = re.compile(
@@ -198,9 +200,10 @@ def clean_text(text: str) -> str:
     for match in word_pattern.finditer(text.lower()):
         words.append(match.group())
     words = [word for word in words if word not in stop_words]
-    lemmatizer = WordNetLemmatizer()
+    lemmatizer = nltk.stem.WordNetLemmatizer()
     words = [lemmatizer.lemmatize(word) for word in words]
     return ' '.join(words)
+
 
 # Function to make API request for prediction
 @st.cache_data(show_spinner=False)
