@@ -22,7 +22,7 @@ from PIL import Image
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.tags import tagger_component
 from wordcloud import WordCloud
-
+from nltk.stem import WordNetLemmatizer
 # Initial page config
 st.set_page_config(
     page_title='Topic Modeling Demo',
@@ -178,6 +178,29 @@ def plot_bar_chart(top_words: List[str], top_scores: List[float]) -> None:
 
     st.plotly_chart(fig, use_container_width=True)
 
+def clean_text(text: str) -> str:
+    # Remove emojis
+    emoji_pattern = re.compile(
+        '['
+        '\U0001f600-\U0001f64f'  # emoticons
+        '\U0001f300-\U0001f5ff'  # symbols & pictographs
+        '\U0001f680-\U0001f6ff'  # transport & map symbols
+        '\U0001f1e0-\U0001f1ff'  # flags (iOS)
+        '\U00002702-\U000027b0'
+        '\U000024c2-\U0001f251'
+        ']+',
+        flags=re.UNICODE,
+    )
+    text = emoji_pattern.sub(r'', text)
+
+    words = []
+    word_pattern = re.compile(r'(?:\w+|[#@])+')
+    for match in word_pattern.finditer(text.lower()):
+        words.append(match.group())
+    words = [word for word in words if word not in stop_words]
+    lemmatizer = WordNetLemmatizer()
+    words = [lemmatizer.lemmatize(word) for word in words]
+    return ' '.join(words)
 
 # Function to make API request for prediction
 @st.cache_data(show_spinner=False)
@@ -291,7 +314,8 @@ def cs_body(
 
     if input_option == 'Manual Input':
         default_text = 'A shelf without cream cheese is a holiday without cheesecake. So if you can’t make your favorite dessert this year, buy any other one. And we’ll pay for it. #SpreadTheFeeling'
-        user_input = st.text_area('Enter Post:', default_text)
+        user_input_raw = st.text_area('Enter Post:', default_text)
+        user_input = clean_text(user_input_raw)
 
     else:
         selected_post = st.selectbox('Select Post:', df_source['body'])
@@ -435,7 +459,7 @@ def cs_body(
                 st.markdown('<u><b>Post</b></u>:', unsafe_allow_html=True)
 
                 user_input_default = (
-                    selected_row['body'] if input_option != 'Manual Input' else user_input
+                    selected_row['body'] if input_option != 'Manual Input' else user_input_raw
                 )
                 annotated_post = annotate_user_input_with_scores(
                     user_input_default, top_words, top_scores
