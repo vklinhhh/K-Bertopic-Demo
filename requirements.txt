@@ -1,0 +1,10 @@
+keybert==0.8.4
+matplotlib==3.8.3
+pandas==2.2.1
+Pillow==10.3.0
+plotly==5.19.0
+Requests==2.31.0
+st_annotated_text==4.0.1
+streamlit==1.33.0
+streamlit_extras==0.4.2
+wordcloud==1.9.3
